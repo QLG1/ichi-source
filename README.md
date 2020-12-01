@@ -2,6 +2,8 @@
 
 ## Requirements
 Running the .exe doesn't have requirements, just download bot.exe, config.ini, db.sqlite3, help.txt and passkey.txt in a single folder and run. Don't forget to edit the config.ini file
+
+### As for bot.py
 - [Python 3.8.6](https://www.python.org/downloads/release/python-386/)
 - [Tomer's Unofficial kik bot api library](https://travis-ci.org/joemccann/dillinger.svg?branch=master)
 - [Intellivoid's Coffeehouse python library](https://github.com/intellivoid/CoffeeHouse-Python-API-Wrapper)
