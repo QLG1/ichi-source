@@ -5,7 +5,7 @@ Running the .exe doesn't have requirements, just download bot.exe, config.ini, d
 
 ### As for bot.py
 - [Python 3.8.6](https://www.python.org/downloads/release/python-386/)
-- [Tomer's Unofficial kik bot api library](https://travis-ci.org/joemccann/dillinger.svg?branch=master)
+- [Tomer's Unofficial kik bot api library](https://github.com/tomer8007/kik-bot-api-unofficial)
 - [Intellivoid's Coffeehouse python library](https://github.com/intellivoid/CoffeeHouse-Python-API-Wrapper)
 
 ## Setting up
@@ -41,3 +41,4 @@ The current pass is saved in 'passkey.txt', it changes every time it is used, us
 (all commands are excluding the parentheses)
 
 ### That's it, enjoy the bot
+### For support, join #ichiBot on kik, or [DM me on Telegram](https://t.me/nodestorm)
