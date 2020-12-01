@@ -14,13 +14,14 @@ Make sure to run a command using a pass as soon as the bot is up so that it chan
 
 ## Instructions & usage
 The help message is saved in 'help.txt'  
-The current pass is saved in 'pass.txt', it changes every time it is used, using the 'pass' command will send it to you, if you are in the 'super' list
+The current pass is saved in 'passkey.txt', it changes every time it is used, using the 'pass' command will send it to you, if you are in the 'super' list
 
 ### Commands
 
 'ping' pong!  
 'help' sends the help message  
 'count' sends the saved group count  
+'pass' sends the current passkey, assuming you are in the 'super' list  
 'settings' sends the current group settings  
 'admins' sends the detected admins  
 'welcome'/'rules' sends the welcome message  
