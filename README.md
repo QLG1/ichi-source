@@ -26,7 +26,7 @@ The current pass is saved in 'pass.txt', it changes every time it is used, using
 'welcome'/'rules' sends the welcome message  
 'welcome (welcome message)' sets the welcome message  
 'delete welcome' deletes the welcome message  
-'days (number)' kicks accounts that are less than (number) days old  
+'days (number)' kicks accounts that are less than (number) days old, set to 0 to disable  
 'reset' erases group data and leaves  
 'quit' leaves without erasing group data  
 'lock' locks the group  
