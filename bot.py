@@ -26,7 +26,7 @@ device_id = config['REQUIRED']['device_id']
 android_id = config['REQUIRED']['android_id']
 super = config['REQUIRED']['super']
 prefix = config['REQUIRED']['prefix']
-lydia_prefix = config['REQUIRED']['lydia_prefix']
+coffeehouse_prefix = config['REQUIRED']['coffeehouse_prefix']
 
 coffeehouse_api_key = config['OPTIONAL']['coffeehouse_api_key']
 kik_bot_username = config['OPTIONAL']['kik_bot_username']
@@ -88,8 +88,8 @@ class EchoBot(KikClientCallback):
                 self.client.send_chat_message(chat_message.group_jid, f"Please re-add me.\n@{username}\n(Errno. 1001)")
                 self.client.leave_group(chat_message.group_jid)
 
-        #LYDIA
-        if chat_message.body.startswith(lydia_prefix):
+        #COFFEEHOUSE
+        if chat_message.body.startswith(coffeehouse_prefix):
 
             cooldown = get_cooldown(chat_message.group_jid)
             if (int(time.time()) - cooldown) < 2:
