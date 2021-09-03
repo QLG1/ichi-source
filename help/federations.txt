@@ -1,0 +1,22 @@
+[Federation Commands]
+
+[DM Commands]
+/createfed <name>: Creates a federation with <name>.
+
+/deletefed <name>: Deletes a federation with <name>, case sensitive!
+
+/fedban <username>: Bans a user from joining groups in your federation.
+(Don't include an @)
+
+/fedunban <username>: Unbans a user from joining groups in your federation.
+
+/fedbans: Lists the federation's bans.
+
+/fedstats: Federation statistics.
+
+[Group Commands]
+/joinfed <name>: Adds the group to the <name> federation.
+
+/leavefed: Removes group from it's current federation.
+
+Anyone can own 1 federation and only admins can add/remove groups to/from federations.

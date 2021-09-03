@@ -1,0 +1,40 @@
+[Group Commands]
+
+[Members]
+/settings: Shows the group settings.
+
+/rules: Sends the rules.
+
+/triggers: Shows saved triggers.
+
+/censored: Shows censored words.
+
+[Admins]
+/rules <rules>: Sets the rules.
+
+/delete rules: Deletes the rules.
+
+/days <days>: Accounts with a day count under <days> will be removed upon joining.
+
+/lock: Locks the group.
+
+/unlock: Unlocks the group.
+
+/enable captcha: Enables captchas.
+
+/disable captcha: Disables captchas.
+
+To add a trigger, do:
+Trigger >> Response
+
+/delete <trigger>: Deletes a trigger.
+
+/censored: Shows censored words.
+
+/censor <word>: Removes people that say <word>
+
+/uncensor <word>: No longer removes people that say <word>
+
+/quit: Leaves the group.
+
+/reset: Deletes all group data and leaves the group.

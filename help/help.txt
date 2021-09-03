@@ -1,0 +1,14 @@
+[Basic Commands]
+/ping: Pong!
+
+/help: This message
+
+
+[For Group Commands]
+/help group
+
+[For Federation Commands]
+/help federations
+
+[Support Group]
+#ichiBot
