@@ -445,7 +445,7 @@ def is_user_admin(user_id, group_id):
 def get_admins(group_id):
     conn = sqlite3.connect('db.sqlite3')
     curr = conn.cursor()
-    curr.execute(f'SELECT * FROM admins WHERE group_id=?', (group_jid,))
+    curr.execute(f'SELECT * FROM admins WHERE group_id=?', (group_id,))
     rows = curr.fetchall()
 
     admins = []
