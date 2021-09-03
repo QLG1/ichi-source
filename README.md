@@ -1,44 +1,29 @@
-# ichi bot source
+# ichi Bot Source Code
 
 ## Requirements
-Running the .exe doesn't have requirements, just download bot.exe, config.ini, db.sqlite3, help.txt and passkey.txt in a single folder and run. Don't forget to edit the config.ini file
 
-### As for bot.py
-- [Python 3.8.6](https://www.python.org/downloads/release/python-386/)
-- [Tomer's Unofficial kik bot api library](https://github.com/tomer8007/kik-bot-api-unofficial)
-- [Intellivoid's Coffeehouse python library](https://github.com/intellivoid/CoffeeHouse-Python-API-Wrapper)
+- [Python 3.8.x](https://www.python.org/downloads/release/python-386/)
+- [Tomer's unofficial Kik bot API library](https://github.com/tomer8007/kik-bot-api-unofficial)
 
 ## Setting up
 Check the config.ini file
 
 ## Important
-Make sure to run a command using a pass as soon as the bot is up so that it changes
+Make sure to change the key in passkey.txt
 
 ## Instructions & usage
-The help message is saved in 'help.txt'  
-The current pass is saved in 'passkey.txt', it changes every time it is used, using the 'pass' command will send it to you, if you are in the 'super' list
+Help messages are in the help directory 
 
-### Commands
+### General Commands
 
-'ping' pong!  
-'help' sends the help message  
-'count' sends the saved group count  
-'pass' sends the current passkey, assuming you are in the 'super' list  
-'settings' sends the current group settings  
-'admins' sends the detected admins  
-'welcome'/'rules' sends the welcome message  
-'welcome (welcome message)' sets the welcome message  
-'delete welcome' deletes the welcome message  
-'days (number)' kicks accounts that are less than (number) days old, set to 0 to disable  
-'reset' erases group data and leaves  
-'quit' leaves without erasing group data  
-'lock' locks the group  
-'unlock' unlocks the group  
-'enable AI' enables Coffeehouse AI  
-'disable AI' disables Coffeehouse AI  
-'dgg (query)' searches a duckduckgo query   
+For a list of general commands, check the help texts
 
-(all commands are excluding the parentheses)
+### Super Commands
+(DM) 'pass' sends you the current passkey<br/>
+(GROUP) 'sudo' promotes you to admin, used with a passkey<br/><br/>
+Passkey usage example: '/LOVEUsudo'
+
+(All commands are used without quotes)
 
 ### That's it, enjoy the bot
 ### For support, join #ichiBot on kik, or [DM me on Telegram](https://t.me/nodestorm)
