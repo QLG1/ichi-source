@@ -263,7 +263,7 @@ class IchiBot(KikClientCallback):
                 return
 
             elif chat_message.body.lower() == prefix+"admins":
-                #this command is slow
+                #this command is slow, only exists for debug purposes, and wont work without kik bot API credentials
                 adminslist = get_admins(chat_message.group_jid)
                 admins = ""
                 for admin in adminslist:
