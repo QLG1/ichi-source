@@ -410,10 +410,14 @@ class IchiBot(KikClientCallback):
                             else:
                                 if '{firstname}' in welcome or '{lastname}' in welcome: # will only work if you've set a bot username and API key in config.ini
 
-                                    alias = response.status_jid.replace("_a@talk.kik.com","")
-                                    user = requests.get('https://api.kik.com/v1/user/'+alias,
-                                        auth=(kik_bot_username, kik_bot_key)
-                                        )
+                                    if "_a@" in chat_message.from_jid:
+                                        alias = chat_message.from_jid[:-15]
+                                        user = requests.get('https://api.kik.com/v1/user/'+alias,
+                                            auth=(kik_bot_username, kik_bot_key)
+                                            )
+                                    else:
+                                        alias = chat_message.from_jid[:-17]
+                                        user = requests.get('http://ws2.kik.com/user/'+alias)
                                     user = json.loads(user.text)
 
                                     welcome = welcome.replace('{firstname}',str(user['firstName'])[:30])
@@ -447,7 +451,7 @@ class IchiBot(KikClientCallback):
             settings = get_group_settings(response.group_jid)
             if is_locked(response.group_jid):
                 self.client.remove_peer_from_group(response.group_jid, response.status_jid)
-            elif settings[8] == "True":
+            elif settings[8] == "True" and not re.search(" has joined the chat, invited by ", str(response.status)):
                 vars = make_captcha(response.status_jid, response.group_jid, username)
                 self.client.send_chat_message(response.group_jid, f"Hi, please solve:\n{vars[0]} + {vars[1]} = ?\nYou have 2 minutes.")
             else:
@@ -456,10 +460,14 @@ class IchiBot(KikClientCallback):
                 if welcome != None:
                     if '{firstname}' in welcome or '{lastname}' in welcome: # will only work if you've set a bot username and API key in config.ini
 
-                        alias = response.status_jid.replace("_a@talk.kik.com","")
-                        user = requests.get('https://api.kik.com/v1/user/'+alias,
-                            auth=(kik_bot_username, kik_bot_key)
-                            )
+                        if "_a@" in alias:
+                            alias = response.status_jid[:-15]
+                            user = requests.get('https://api.kik.com/v1/user/'+alias,
+                                auth=(kik_bot_username, kik_bot_key)
+                                )
+                        else:
+                            alias = response.status_jid[:-17]
+                            user = requests.get('http://ws2.kik.com/user/'+alias)
                         user = json.loads(user.text)
 
                         welcome = welcome.replace('{firstname}',str(user['firstName'])[:30])
