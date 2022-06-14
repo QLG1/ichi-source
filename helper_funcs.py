@@ -1,8 +1,12 @@
-import sqlite3, time
-import random, string, re, requests, json
+import random
+import sqlite3
+import string
+import time
 
-def randomString(length):
+
+def random_string(length):
     return ''.join(random.choice(string.ascii_uppercase) for i in range(length))
+
 
 def check_captchas(client, bot):
     print(f"({bot}) Captcha checks started.")
@@ -20,12 +24,14 @@ def check_captchas(client, bot):
 
         time.sleep(30)
 
+
 def clear_captchas():
     conn = sqlite3.connect('db.sqlite3')
     curr = conn.cursor()
     curr.execute('DELETE FROM captchas')
     conn.commit()
     conn.close()
+
 
 def ping_captcha(jid, message):
     conn = sqlite3.connect('db.sqlite3')
@@ -53,6 +59,7 @@ def enable_captcha(group_jid):
     conn.commit()
     conn.close()
 
+
 def disable_captcha(group_jid):
     conn = sqlite3.connect('db.sqlite3')
     curr = conn.cursor()
@@ -60,10 +67,11 @@ def disable_captcha(group_jid):
     conn.commit()
     conn.close()
 
+
 def make_captcha(jid, group, bot):
     vars = []
-    vars.append(random.randint(0,10))
-    vars.append(random.randint(0,10))
+    vars.append(random.randint(0, 10))
+    vars.append(random.randint(0, 10))
     sol = vars[0] + vars[1]
     conn = sqlite3.connect('db.sqlite3')
     curr = conn.cursor()
@@ -72,8 +80,8 @@ def make_captcha(jid, group, bot):
     conn.close()
     return vars
 
-def fedbans(user):
 
+def fedbans(user):
     fed = user_owns_federation(user)
     if fed != False:
         conn = sqlite3.connect('db.sqlite3')
@@ -88,12 +96,14 @@ def fedbans(user):
     else:
         return False
 
+
 def fedunban(fedname, user):
     conn = sqlite3.connect('db.sqlite3')
     curr = conn.cursor()
     curr.execute(f'DELETE FROM fedbans WHERE (federation = ? AND username = ?)', (fedname, user))
     conn.commit()
     conn.close()
+
 
 def fedban(fedname, user):
     conn = sqlite3.connect('db.sqlite3')
@@ -102,13 +112,15 @@ def fedban(fedname, user):
     conn.commit()
     conn.close()
 
+
 def is_user_fedbanned(user, fedname):
     if '_a@' in user:
         user = get_user(user)
 
     conn = sqlite3.connect('db.sqlite3')
     curr = conn.cursor()
-    curr.execute(f'SELECT * FROM fedbans WHERE (LOWER(federation) = LOWER(?)  AND username=? COLLATE NOCASE)', (fedname, user[:-17]))
+    curr.execute(f'SELECT * FROM fedbans WHERE (LOWER(federation) = LOWER(?)  AND username=? COLLATE NOCASE)',
+                 (fedname, user[:-17]))
     query = curr.fetchall()
     conn.close()
 
@@ -116,6 +128,7 @@ def is_user_fedbanned(user, fedname):
         return False
     else:
         return True
+
 
 def join_federation(group_jid, name):
     if federation_exists(name):
@@ -128,12 +141,14 @@ def join_federation(group_jid, name):
     else:
         return False
 
+
 def leave_federation(group_jid):
     conn = sqlite3.connect('db.sqlite3')
     curr = conn.cursor()
     curr.execute(f'UPDATE groups SET federation = "" WHERE (group_id = ?)', (group_jid,))
     conn.commit()
     conn.close()
+
 
 def delete_federation(jid, fedname):
     conn = sqlite3.connect('db.sqlite3')
@@ -143,6 +158,7 @@ def delete_federation(jid, fedname):
     curr.execute(f'UPDATE groups SET federation = "" WHERE (federation = ?)', (fedname,))
     conn.commit()
     conn.close()
+
 
 def fedstats(owner):
     conn = sqlite3.connect('db.sqlite3')
@@ -166,6 +182,7 @@ def fedstats(owner):
         query1[0] += tuple
         return query1[0]
 
+
 def user_owns_federation(user):
     conn = sqlite3.connect('db.sqlite3')
     curr = conn.cursor()
@@ -177,6 +194,7 @@ def user_owns_federation(user):
         return False
     else:
         return query[0][0]
+
 
 def federation_exists(name):
     conn = sqlite3.connect('db.sqlite3')
@@ -190,6 +208,7 @@ def federation_exists(name):
     else:
         return True
 
+
 def key_exists(key):
     conn = sqlite3.connect('db.sqlite3')
     curr = conn.cursor()
@@ -202,11 +221,13 @@ def key_exists(key):
     else:
         return True
 
+
 def create_key():
-    key = randomString(12)
+    key = random_string(12)
     while key_exists(key):
-        key = randomString(12)
+        key = random_string(12)
     return key
+
 
 def create_federation(name, owner):
     if user_owns_federation(owner) == False:
@@ -222,6 +243,7 @@ def create_federation(name, owner):
     else:
         return 'alreadyownsfed'
 
+
 def save_user(alias, jid):
     if get_user(alias) == False:
         conn = sqlite3.connect('db.sqlite3')
@@ -229,6 +251,7 @@ def save_user(alias, jid):
         curr.execute(f'INSERT INTO namebase VALUES (?,?)', (alias, jid))
         conn.commit()
         conn.close()
+
 
 def get_user(alias):
     conn = sqlite3.connect('db.sqlite3')
@@ -242,6 +265,7 @@ def get_user(alias):
     else:
         return False
 
+
 def get_triggers(group_jid):
     conn = sqlite3.connect('db.sqlite3')
     curr = conn.cursor()
@@ -253,6 +277,7 @@ def get_triggers(group_jid):
     for q in query:
         triggers.append(q[1])
     return triggers
+
 
 def get_censored(group_jid):
     conn = sqlite3.connect('db.sqlite3')
@@ -266,6 +291,7 @@ def get_censored(group_jid):
         censored.append(q[1])
     return censored
 
+
 def censor(group_jid, word):
     conn = sqlite3.connect('db.sqlite3')
     curr = conn.cursor()
@@ -273,12 +299,14 @@ def censor(group_jid, word):
     conn.commit()
     conn.close()
 
+
 def uncensor(group_jid, word):
     conn = sqlite3.connect('db.sqlite3')
     curr = conn.cursor()
     curr.execute(f'DELETE FROM censored WHERE (group_jid = ? AND word = ?)', (group_jid, word.lower()))
     conn.commit()
     conn.close()
+
 
 def is_censored(group_jid, message):
     conn = sqlite3.connect('db.sqlite3')
@@ -292,35 +320,39 @@ def is_censored(group_jid, message):
             return True
     return False
 
+
 def add_trigger(group_jid, trigger, response):
     conn = sqlite3.connect('db.sqlite3')
     curr = conn.cursor()
-    trigger = trigger.replace('"',"\DQUOTE")
-    response = response.replace('"',"\DQUOTE")
+    trigger = trigger.replace('"', "\DQUOTE")
+    response = response.replace('"', "\DQUOTE")
     curr.execute(f'INSERT INTO triggers VALUES (?,?,?)', (group_jid, trigger.lower(), response))
     conn.commit()
     conn.close()
 
+
 def remove_trigger(group_jid, trigger):
     conn = sqlite3.connect('db.sqlite3')
     curr = conn.cursor()
-    trigger = trigger.replace('"',"\DQUOTE")
+    trigger = trigger.replace('"', "\DQUOTE")
     curr.execute(f'DELETE FROM triggers WHERE (group_jid = ? AND trigger = ?)', (group_jid, trigger.lower()))
     conn.commit()
     conn.close()
 
+
 def is_trigger(group_jid, message):
     conn = sqlite3.connect('db.sqlite3')
     curr = conn.cursor()
-    message = message.replace('"',"\DQUOTE")
+    message = message.replace('"', "\DQUOTE")
     curr.execute(f'SELECT * FROM triggers WHERE (trigger=? AND group_jid=?)', (message.lower(), group_jid))
     query = curr.fetchall()
     conn.close()
 
     if query != []:
-        return query[0][2].replace('\DQUOTE','"')
+        return query[0][2].replace('\DQUOTE', '"')
     else:
         return False
+
 
 def ensure_bot(username):
     conn = sqlite3.connect('db.sqlite3')
@@ -335,6 +367,7 @@ def ensure_bot(username):
     conn.close()
     return
 
+
 def get_bot_groupcount(username):
     conn = sqlite3.connect('db.sqlite3')
     curr = conn.cursor()
@@ -343,6 +376,7 @@ def get_bot_groupcount(username):
     conn.close()
 
     return query[0][1]
+
 
 def compare_groupcounts(username):
     conn = sqlite3.connect('db.sqlite3')
@@ -354,9 +388,10 @@ def compare_groupcounts(username):
     smallest_bot = username
     smallest_count = get_bot_groupcount(username)
     for bot in bots:
-        if bot[1]+10 < smallest_count:
+        if bot[1] + 10 < smallest_count:
             smallest_bot = bot[0]
     return smallest_bot
+
 
 def add_to_groupcount(username):
     conn = sqlite3.connect('db.sqlite3')
@@ -365,9 +400,10 @@ def add_to_groupcount(username):
     bot = curr.fetchall()
 
     count = bot[0][1]
-    curr.execute(f'UPDATE groupcounts SET count = ? WHERE (username = ?)', (int(count)+1, username))
+    curr.execute(f'UPDATE groupcounts SET count = ? WHERE (username = ?)', (int(count) + 1, username))
     conn.commit()
     conn.close()
+
 
 def remove_from_groupcount(username):
     conn = sqlite3.connect('db.sqlite3')
@@ -376,9 +412,10 @@ def remove_from_groupcount(username):
     bot = curr.fetchall()
 
     count = bot[0][1]
-    curr.execute(f'UPDATE groupcounts SET count = ? WHERE (username = ?)', (int(count)-1, username))
+    curr.execute(f'UPDATE groupcounts SET count = ? WHERE (username = ?)', (int(count) - 1, username))
     conn.commit()
     conn.close()
+
 
 def group_data_exists(group_id):
     conn = sqlite3.connect('db.sqlite3')
@@ -392,6 +429,7 @@ def group_data_exists(group_id):
     else:
         return True
 
+
 def get_cooldown(group_id):
     conn = sqlite3.connect('db.sqlite3')
     curr = conn.cursor()
@@ -400,12 +438,14 @@ def get_cooldown(group_id):
     conn.close()
     return rows[0][4]
 
+
 def update_cooldown(group_id):
     conn = sqlite3.connect('db.sqlite3')
     curr = conn.cursor()
     curr.execute(f'UPDATE groups SET cooldown = ? WHERE (group_id = ?)', (int(time.time()), group_id))
     conn.commit()
     conn.close()
+
 
 def get_group_settings(group_id):
     conn = sqlite3.connect('db.sqlite3')
@@ -415,6 +455,7 @@ def get_group_settings(group_id):
     conn.close()
     return rows[0]
 
+
 def add_admin(group_id, user_id):
     conn = sqlite3.connect('db.sqlite3')
     curr = conn.cursor()
@@ -422,12 +463,14 @@ def add_admin(group_id, user_id):
     conn.commit()
     conn.close()
 
+
 def remove_admin(group_id, user_id):
     conn = sqlite3.connect('db.sqlite3')
     curr = conn.cursor()
     curr.execute(f'DELETE FROM admins WHERE (group_id = ? AND user_id = ?)', (group_id, user_id))
     conn.commit()
     conn.close()
+
 
 def is_user_admin(user_id, group_id):
     conn = sqlite3.connect('db.sqlite3')
@@ -442,6 +485,7 @@ def is_user_admin(user_id, group_id):
     else:
         return True
 
+
 def get_admins(group_id):
     conn = sqlite3.connect('db.sqlite3')
     curr = conn.cursor()
@@ -454,13 +498,15 @@ def get_admins(group_id):
     conn.close()
     return admins
 
+
 def save_welcome(group_id, text):
     conn = sqlite3.connect('db.sqlite3')
     curr = conn.cursor()
-    text = text.replace('"',"\DQUOTE")
+    text = text.replace('"', "\DQUOTE")
     curr.execute(f'INSERT INTO welcomes VALUES (?, ?)', (group_id, text))
     conn.commit()
     conn.close()
+
 
 def get_welcome(group_id):
     conn = sqlite3.connect('db.sqlite3')
@@ -470,9 +516,10 @@ def get_welcome(group_id):
     conn.close()
 
     try:
-        return rows[0][1].replace('\DQUOTE','"')
+        return rows[0][1].replace('\DQUOTE', '"')
     except IndexError:
         return None
+
 
 def delete_welcome(group_id):
     conn = sqlite3.connect('db.sqlite3')
@@ -481,12 +528,14 @@ def delete_welcome(group_id):
     conn.commit()
     conn.close()
 
+
 def set_days(group_id, days):
     conn = sqlite3.connect('db.sqlite3')
     curr = conn.cursor()
-    curr.execute(f'UPDATE groups SET days = ? WHERE (group_id = ?)', (days*86400, group_id))
+    curr.execute(f'UPDATE groups SET days = ? WHERE (group_id = ?)', (days * 86400, group_id))
     conn.commit()
     conn.close()
+
 
 def reset_group(group_id):
     conn = sqlite3.connect('db.sqlite3')
@@ -498,12 +547,14 @@ def reset_group(group_id):
     conn.commit()
     conn.close()
 
+
 def toggle_group_lock(group_id, toggle):
     conn = sqlite3.connect('db.sqlite3')
     curr = conn.cursor()
     curr.execute(f'UPDATE groups SET lock = ? WHERE (group_id = ?)', (toggle, group_id))
     conn.commit()
     conn.close()
+
 
 def is_locked(group_id):
     conn = sqlite3.connect('db.sqlite3')
